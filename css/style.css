@@ -1,0 +1,71 @@
+input:focus:required:invalid {
+	background-color: #ffdddd;
+}
+
+input:required:valid {
+	background-color: #ddffdd;
+}
+
+body {
+	max-height: 100vh;
+}
+
+.select-caixa {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-top: 15%;
+}
+
+.select-caixa button {
+	margin-left: 20px;
+}
+
+.select-caixa select {
+	width: 300px;
+}
+
+.center {
+	margin: 0 auto;
+	margin-top: 15%;
+}
+
+.caixa {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+	height: calc(100vh - 207px);
+}
+
+.info-item {
+	display: flex;
+	flex-direction: row;
+	margin: 0;
+}
+
+.info-item button {
+	margin: 20px 0;
+	width: 100%;
+}
+
+.info-item h1 {
+	text-align: center;
+}
+
+@media screen and (max-width: 480px) {
+	.select-caixa {
+		flex-direction: column;
+	}
+	.select-caixa select {
+		width: 300px;
+	}
+	.select-caixa button {
+		margin: 0;
+		margin-top: 20px;
+	}
+	.caixa h1 {
+		font-size: 25px;
+	}
+}
