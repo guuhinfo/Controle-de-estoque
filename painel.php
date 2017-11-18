@@ -82,7 +82,8 @@
 			</ol>
 
 			<div class="caixa">
-				<h1>Selecione o item usado:</h1>
+				<h1>Alterar Item</h1>
+				<p>Selecione o item usado</p>
 				<form action="buscar.php">
 					<div class="form-group select-caixa">
 						<select class="lista-estoque chosen-select" onchange="clienteChange()" id="estoque" name="item" type="search">
