@@ -122,47 +122,77 @@
 				<li class="breadcrumb-item active">Início</li>
 			</ol>
 
-			<div class="caixa">
-				<h1>Selecione o item usado:</h1>
-				<form action="buscar.php">
-					<div class="form-group select-caixa">
-						<select class="lista-estoque chosen-select" onchange="clienteChange()" id="estoque" name="item" type="search">
-							<?php
-								$sql = "SELECT id, item FROM estoque ORDER BY item;";
+			<div>
+				<!--	Boletos		-->
+				<div class="card mb-3">
+					<div class="card-header"><i class="fa fa-table"></i> Boletos</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+								<thead>
+									<tr>
+										<th>Item</th>
+										<th>Quantidade</th>
+										<th>Alterar</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th>Item</th>
+										<th>Quantidade</th>
+										<th>Alterar</th>
+									</tr>
+								</tfoot>
+								<tbody>
+									<?php
 
-								if ($res = mysqli_query($conn, $sql)) {
-									while ($row = mysqli_fetch_assoc($res)) {
-										printf("<option value='%d'>%s</option>", $row['id'], $row['item']);
-									}
-								}
+										// busca por todos os itens
+										$sql = "SELECT id, item, quantidade FROM estoque;";
 
-							?>
-						</select>
-						<button type="submit" class="btn btn-primary">Alterar</button>
+										// se a busca retornar resultados
+										if ($res = mysqli_query($conn, $sql)) {
+											// percorre pelos resultados
+											while ($row = mysqli_fetch_assoc($res)) {
+												$item = $row['item'];
+												$quantidade = $row['quantidade'];
+
+												// link para editar
+												$linkEditar = "<a href='alterar.php?item=".$row['id']."'>Editar</a>";
+
+												// imprime as linhas da tabela
+												printf("<tr><td>%s</td><td>%s</td><td>%s</td></tr>", $item, $quantidade, $linkEditar);
+											}
+
+											mysqli_free_result($res);
+										}
+									?>
+								</tbody>
+							</table>
+						</div>
 					</div>
-				</form>
+				</div>
+			</div>
 
-				<!-- Scroll to Top Button-->
-				<a class="scroll-to-top rounded" href="#page-top">
-					<i class="fa fa-angle-up"></i>
-				</a>
-				<!-- Logout Modal-->
-				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">Tem certeza que deseja sair?</h5>
-								<button class="close" type="button" data-dismiss="modal" aria-label="Close">
-						  <span aria-hidden="true">×</span>
-						</button>
-							</div>
-							<div class="modal-body">Clique em "Sair" se deseja encerrar a sessão atual.</div>
-							<div class="modal-footer">
-								<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-								<form action="includes/logout.inc.php" method="post">
-									<button class="btn btn-primary" type="submit">Sair</button>
-								</form>
-							</div>
+			<!-- Scroll to Top Button-->
+			<a class="scroll-to-top rounded" href="#page-top">
+				<i class="fa fa-angle-up"></i>
+			</a>
+			<!-- Logout Modal-->
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Tem certeza que deseja sair?</h5>
+							<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+					  <span aria-hidden="true">×</span>
+					</button>
+						</div>
+						<div class="modal-body">Clique em "Sair" se deseja encerrar a sessão atual.</div>
+						<div class="modal-footer">
+							<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+							<form action="includes/logout.inc.php" method="post">
+								<button class="btn btn-primary" type="submit">Sair</button>
+							</form>
 						</div>
 					</div>
 				</div>
