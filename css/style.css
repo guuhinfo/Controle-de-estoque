@@ -10,6 +10,15 @@ body {
 	max-height: 100vh;
 }
 
+figure {
+	padding: 10px;
+}
+
+figure a, figure a:hover, figure a:active, figure a:visited {
+	text-decoration: none;
+	color: black;
+}
+
 .select-caixa {
 	display: flex;
 	flex-direction: row;
@@ -39,6 +48,11 @@ body {
 	height: calc(100vh - 207px);
 }
 
+.opcoes {
+	max-width: 600px;
+	margin: 0 auto;
+}
+
 .info-item {
 	display: flex;
 	flex-direction: row;
@@ -51,6 +65,18 @@ body {
 }
 
 .info-item h1 {
+	text-align: center;
+}
+
+.menu {
+	margin: 0 auto;
+}
+
+.menu h2 {
+	text-align: center;
+}
+
+.menu figure {
 	text-align: center;
 }
 

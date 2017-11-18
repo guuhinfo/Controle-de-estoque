@@ -123,7 +123,7 @@
 			</ol>
 
 			<div class="caixa">
-				<h1>Selecione o item:</h1>				
+				<h1>Deletar Item</h1>
 				<form action="includes/estoque/deletar.inc.php">
 					<div class="form-group select-caixa">
 						<select class="lista-estoque chosen-select" onchange="clienteChange()" id="estoque" name="item" type="search">

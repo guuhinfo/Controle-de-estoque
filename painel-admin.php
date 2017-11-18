@@ -122,11 +122,58 @@
 				<li class="breadcrumb-item active">Início</li>
 			</ol>
 
-			<div class="caixa">
-				
-				
 			<!--		MENU		-->
+			<div class="opcoes">
+				<!--		Estoque		-->
+				<div class="menu">
+					<h2>Estoque</h2>
+					<div class="row">
+						<figure class="col-lg-3 col-md-3 col-sm-12">
+							<a href="alterar-item.php">
+								<img src="img/alterar-item.png" alt="Alterar Item">
+								<figcaption>Alterar Item</figcaption>
+							</a>
+						</figure>
+						<figure class="col-lg-3 col-md-3 col-sm-12">
+							<a href="buscar-item.php">
+								<img src="img/buscar-item.png" alt="Buscar Item">
+								<figcaption>Buscar Item</figcaption>
+							</a>
+						</figure>
+						<figure class="col-lg-3 col-md-3 col-sm-12">
+							<a href="cadastrar-item.php">
+								<img src="img/cadastrar-item.png" alt="Cadastrar item">
+								<figcaption>Cadastrar Item</figcaption>
+							</a>
+						</figure>
+						<figure class="col-lg-3 col-md-3 col-sm-12">
+							<a href="deletar-item.php">
+								<img src="img/deletar-item.png" alt="Deletar Item">
+								<figcaption>Deletar Item</figcaption>
+							</a>
+						</figure>
+					</div>
+				</div>
+
 				
+				<!--		Usuário		-->
+				<div class="menu">
+					<h2>Usuário</h2>
+					<div class="row">
+						<figure class="col-lg-6 col-md-6 col-sm-12">
+							<a href="cadastrar-usuario.php">
+								<img src="img/cadastrar-user.png" alt="Cadastrar Usuário">
+								<figcaption>Cadastrar Usuário</figcaption>
+							</a>
+						</figure>
+						<figure class="col-lg-6 col-md-6 col-sm-12">
+							<a href="deletar-usuario.php">
+								<img src="img/deletar-user.png" alt="Deletar Usuário">
+								<figcaption>Deletar Usuário</figcaption>
+							</a>
+						</figure>
+					</div>
+				</div>
 
 				<!-- Scroll to Top Button-->
 				<a class="scroll-to-top rounded" href="#page-top">
