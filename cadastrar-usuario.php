@@ -125,26 +125,26 @@
 			<div class="col-lg-4 col-md-10 col-sm-12 center">
 				<form method="post" action="includes/usuario/cadastrar.inc.php">
 			  		<div class="form-group row">
-						<label for="nome" class="col-sm-2 col-form-label">Nome</label>
-						<div class="col-sm-10">
+						<label for="nome" class="col-sm-4 col-form-label">Nome</label>
+						<div class="col-sm-8">
 							<input type="text" class="form-control" id="nome" name="nome" placeholder="Maria Aparecida Silva">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="usuario" class="col-sm-2 col-form-label">Usuário</label>
-						<div class="col-sm-10">
+						<label for="usuario" class="col-sm-4 col-form-label">Usuário</label>
+						<div class="col-sm-8">
 							<input type="text" class="form-control" id="usuario" name="usuario" placeholder="Nome de usuário">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="senha" class="col-sm-2 col-form-label">Senha</label>
-						<div class="col-sm-10">
+						<label for="senha" class="col-sm-4 col-form-label">Senha</label>
+						<div class="col-sm-8">
 							<input type="password" class="form-control" id="senha" name="senha" placeholder="Senha com no máximo 20 characteres">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
-						<div class="col-sm-10">
+						<label for="tipo" class="col-sm-4 col-form-label">Tipo</label>
+						<div class="col-sm-8">
 							<select class="form-control" name="tipo" id="tipo">
 								<option value="comum">Comum</option>
 								<option value="admin">Administrador</option>

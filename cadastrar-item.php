@@ -125,14 +125,14 @@
 			<div class="col-lg-4 col-md-10 col-sm-12 center">
 				<form method="post" action="includes/estoque/cadastrar.inc.php">
 			  		<div class="form-group row">
-						<label for="nome" class="col-sm-2 col-form-label">Nome</label>
-						<div class="col-sm-10">
+						<label for="nome" class="col-sm-4 col-form-label">Nome</label>
+						<div class="col-sm-8">
 							<input type="text" class="form-control" id="nome" name="nome" placeholder="Molho de Tomate">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="quantidade" class="col-sm-2 col-form-label">Quantidade</label>
-						<div class="col-sm-10">
+						<label for="quantidade" class="col-sm-4 col-form-label">Quantidade</label>
+						<div class="col-sm-8">
 							<input type="number" min="1" class="form-control" id="quantidade" name="quantidade" placeholder="Quantidade inicial">
 						</div>
 					</div>
