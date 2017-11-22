@@ -49,7 +49,7 @@
 			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
 					<a class="nav-link" href="painel.php">
-						<i class="fa fa-fw fa-table"></i>
+						<i class="fa fa-fw fa-search"></i>
 						<span class="nav-link-text">Buscar</span>
 					</a>
 				</li>
