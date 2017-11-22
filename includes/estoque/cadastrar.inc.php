@@ -9,6 +9,7 @@
 		$nome = mysqli_real_escape_string($conn, $_POST['nome']);
 		$quantidade = mysqli_real_escape_string($conn, $_POST['quantidade']);
 		
+		// passa para maiusculo
 		$nome = mb_strtoupper($nome, "UTF-8");
 
 		// em caso de erros

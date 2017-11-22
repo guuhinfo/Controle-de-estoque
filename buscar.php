@@ -78,7 +78,7 @@
 				<li class="breadcrumb-item">
 					<a href="painel.php">Painel</a>
 				</li>
-				<li class="breadcrumb-item active">Buscar</li>
+				<li class="breadcrumb-item active">Alterar</li>
 			</ol>
 			
 			<div class="caixa">
@@ -95,24 +95,30 @@
 					// busca pelo item
 					$sql = "SELECT id, item, quantidade FROM estoque WHERE id='$id';";
 
+					// executa query
 					if ($res = mysqli_query($conn, $sql)) {
 						$row = mysqli_fetch_assoc($res);
 						
+						// pega a quantidade do item buscado
 						$quantidade = $row['quantidade'];
 						
+						// verifica se o usuário informou a quantidade usada do item selecionado
 						if (isset($_POST['saida'])) {
 							$saida = mysqli_real_escape_string($conn, $_POST['saida']);
 							
-							if ($saida < 0) {
+							// quantidade inválida, exibe erro
+							if ($saida < 0 || $saida > $quantidade || $quantidade == 0) {
 								$msg = "<div class='alert alert-danger'>
 											<strong>Erro!</strong> Quantidade usada inválida.
 										</div>";
 							}
 							else {
+								// calcula nova quantidade
 								$quantidade = $quantidade - $saida;
 							}
 						}
 
+						// imprime formulario de alteração na tela
 						printf("<form class='info-item' action='buscar?item=$id' method='post'>
 									<div class='form-group'>
 										<h1>%s</h1>
@@ -126,6 +132,7 @@
 				
 					
 				
+					// e o usuário informou uma quantidade de saída válida, altera a quantidade no banco
 					if (isset($_POST['saida']) && !$msg) {				
 						$sql = "UPDATE estoque SET quantidade = '$quantidade' WHERE id='$id';";
 
@@ -138,18 +145,6 @@
 					else {
 						echo $msg;
 					}
-
-
-					// se a busca retornar resultados
-//										if ($res = mysqli_query($conn, $sql)) {
-//											// percorre pelos resultados
-//											while ($row = mysqli_fetch_assoc($res)) {
-//												
-//												printf("<tr><td>%s</td><td>%d</td><td></td></tr>", $row['item'], $row['quantidade']);
-//											}
-//											
-//											mysqli_free_result($res);
-//										}								
 				?>
 			</div>
 

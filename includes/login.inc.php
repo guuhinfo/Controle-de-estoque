@@ -20,7 +20,7 @@
 
 			// se o usuario não está cadastrado
 			if ($row < 1) {
-				header("Location: ../index.html?login=error");
+				header("Location: ../index.html?login=erro");
 				exit();
 			}
 			else {

@@ -117,7 +117,7 @@
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item">
-					<a href="painel.php">Painel</a>
+					<a href="painel-admin.php">Painel</a>
 				</li>
 				<li class="breadcrumb-item active">Cadastrar</li>
 			</ol>
