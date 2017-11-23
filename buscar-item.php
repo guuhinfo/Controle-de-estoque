@@ -123,9 +123,9 @@
 			</ol>
 
 			<div>
-				<!--	Boletos		-->
+				<!--	Estoque		-->
 				<div class="card mb-3">
-					<div class="card-header"><i class="fa fa-table"></i> Boletos</div>
+					<div class="card-header"><i class="fa fa-table"></i> Estoque</div>
 					<div class="card-body">
 						<div class="table-responsive">
 							<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
