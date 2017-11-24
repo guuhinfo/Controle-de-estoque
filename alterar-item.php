@@ -74,6 +74,11 @@
 								<span class="nav-link-text">Deletar Item</span>
 							</a>
 						</li>
+						<li>
+							<a class="nav-link" href="historico.php">
+								<span class="nav-link-text">Histórico</span>
+							</a>
+						</li>
 					</ul>
 				</li>
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Usuario">

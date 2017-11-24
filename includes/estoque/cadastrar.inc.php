@@ -30,10 +30,9 @@
 			else {	
 				// insere no banco de dados
 				$sql = "INSERT INTO estoque VALUES (default, '$nome', '$quantidade');"; 
-				mysqli_query($conn, $sql); // executa a query
+				mysqli_query($conn, $sql); // executa a query				
 
 				header("Location: ../../cadastrar-item.php?cadastro=sucesso");
-
 				exit();
 			}
 		}

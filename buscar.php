@@ -119,7 +119,7 @@
 						}
 
 						// imprime formulario de alteração na tela
-						printf("<form class='info-item' action='buscar?item=$id' method='post'>
+						printf("<form class='info-item' action='buscar.php?item=$id' method='post'>
 									<div class='form-group'>
 										<h1>%s</h1>
 										<p>Quantidade atual: %d</p>

@@ -14,7 +14,7 @@
 			exit();
 		}
 		else {
-			$sql = "SELECT * FROM usuarios WHERE usuario='$usuario'";
+			$sql = "SELECT * FROM usuarios WHERE usuario='$usuario';";
 			$res = mysqli_query($conn, $sql);
 			$row = mysqli_num_rows($res);
 
