@@ -159,7 +159,7 @@
 						}
 
 						// imprime o form com a quantidade atualizada
-						printf("<form class='info-item' action='alterar?item=$id' method='post'>
+						printf("<form class='info-item' action='alterar.php?item=$id' method='post'>
 									<div class='form-group'>
 										<h1>%s</h1>
 										<p>Quantidade atual: %d</p>
