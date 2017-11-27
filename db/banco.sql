@@ -22,3 +22,11 @@ create table estoque (
     quantidade int not null,
     primary key (id)
 ) default charset = utf8;
+
+/* cria tabela de histórico*/
+create table historico (
+    diaMesAno date not null,
+    item varchar(100) not null unique,
+    quantidade int not null,
+    primary key (diaMesAno)
+) default charset = utf8;

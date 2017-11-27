@@ -125,102 +125,57 @@
 				<li class="breadcrumb-item">
 					<a href="painel-admin.php">Painel</a>
 				</li>
-				<li class="breadcrumb-item active">Alterar</li>
+				<li class="breadcrumb-item active">Histórico</li>
 			</ol>
 			
-			<div class="caixa">
-			
-				<?php
-					$id = 0;
-					$entrada = 0;
-					$saida = 0;
+			<div>
+			<!--	Estoque		-->
+			<div class="card mb-3">
+				<div class="card-header"><i class="fa fa-table"></i> Estoque</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+							<thead>
+								<tr>
+									<th>Item</th>
+									<th>Quantidade</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>Item</th>
+									<th>Quantidade</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<?php
+
+									// recuperando a data atual
+									$data = date("Y-m-d");
 				
-					// guarda o id do item selecionado
-					if (isset($_GET['item']) && !empty($_GET['item'])) {
-						$id = mysqli_real_escape_string($conn, $_GET['item']);
-					}
+									// busca por todos os itens
+									$sql = "SELECT diaMesAno, item, quantidade FROM historico WHERE quantidade > 0 AND diaMesAno = $data;";
 
-					// busca pelo item
-					$sql = "SELECT id, item, quantidade FROM estoque WHERE id='$id';";
+									// se a busca retornar resultados
+									if ($res = mysqli_query($conn, $sql)) {
+										// percorre pelos resultados
+										while ($row = mysqli_fetch_assoc($res)) {
+											$item = $row['item'];
+											$quantidade = $row['quantidade'];
 
-					// verifica se encontrou resultado
-					if ($res = mysqli_query($conn, $sql)) {
-						$row = mysqli_fetch_assoc($res);
-						
-						$quantidade = $row['quantidade'];
-						
-						// armazenando a quantidade inicial e o nome do item para atualizar o histórico
-						$qtdd_inicial = $quantidade;
-						$nome = $row['item'];
+											// imprime as linhas da tabela
+											printf("<tr><td>%s</td><td>%s</td></tr>", $item, $quantidade);
+										}
 
-						// recuperando a data atual
-						$data = date("Y-m-d");
-						
-						// verifica se o usuario informou uma saida
-						// calcula a quantidade final
-						if (isset($_POST['saida']) && !empty($_POST['saida'])) {
-							$saida = mysqli_real_escape_string($conn, $_POST['saida']);
-							$quantidade = $quantidade - $saida;
-						}
-						
-						// verifica se o usuario informou uma entrada
-						// calcula a quantidade final
-						if (isset($_POST['entrada']) && !empty($_POST['entrada'])) {
-							$entrada = mysqli_real_escape_string($conn, $_POST['entrada']);
-							$quantidade = $quantidade + $entrada;
-						}
-
-						// imprime o form com a quantidade atualizada
-						printf("<form class='info-item' action='alterar.php?item=$id' method='post'>
-									<div class='form-group'>
-										<h1>%s</h1>
-										<p>Quantidade atual: %d</p>
-										<div class='row'>
-											<label class='col-md-2' for='entrada'>Entrada</label>
-											<input class='form-control col-md-4' type='number' min='0' id='entrada' name='entrada'>
-											<label class='col-md-2' for='saida'>Saída</label>
-											<input class='form-control col-md-4' type='number' min='0' id='saida' name='saida'>
-										</div>
-										<button class='btn btn-primary'>Salvar</button>
-									</div>
-								</form>", $row['item'], $quantidade);
-					}
-					
-				
-					// se o usuario nao informar entrada nem saida, exibe um erro
-					// se informar, atualiza a quantidade do item no banco
-					if (!empty($_POST['entrada']) || !empty($_POST['saida'])) {
-						$sql = "UPDATE estoque SET quantidade = '$quantidade' WHERE id='$id';";
-
-						if ($res = mysqli_query($conn, $sql)) {
-							echo "<div class='alert alert-success'>
-									  <strong>Sucesso!</strong> A quantidade do item foi atualizada.
-								  </div>";
-						}
-
-						// armazena no histórico quantidade utilizada
-						$qtdd = $qtdd_inicial - $quantidade;
-						$sql = "UPDATE historico SET quantidade = '$qtdd' WHERE item='$nome' AND diaMesAno='$data';";
-
-						// se o update foi feito corretamente
-						if (mysqli_query($conn, $sql)) {
-							exit();
-						}
-						else{
-							// insere o novo consumo no historico
-							$sql = "INSERT INTO historico (diaMesAno, item, quantidade) VALUES ('$data', '$nome', '$qtdd');";
-							mysqli_query($conn, $sql);
-							exit();
-						}
-					}
-					// verifica se o usuario clicou no botao salvar
-					else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-						echo "<div class='alert alert-danger'>
-							     <strong>Erro!</strong> Quantidade inválida.
-							  </div>";
-					}								
-				?>
+										mysqli_free_result($res);
+									}
+								?>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
+		</div>
 
 			<!-- Scroll to Top Button-->
 			<a class="scroll-to-top rounded" href="#page-top">
