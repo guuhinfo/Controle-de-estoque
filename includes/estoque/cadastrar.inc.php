@@ -15,7 +15,7 @@
 		$nome = mb_strtoupper($nome, "UTF-8");
 
 		// em caso de erros
-		if (empty($nome) || empty($quantidade)) {
+		if (empty($_POST['nome']) || empty($_POST['quantidade']) || empty($_POST['validade'])) {
 			header("Location: ../../cadastrar-item.php?cadastro=vazio");
 			exit();
 		}

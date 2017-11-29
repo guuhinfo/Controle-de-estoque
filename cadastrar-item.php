@@ -172,7 +172,7 @@
 						}
 						else if ($cadastro == "vazio") {
 							echo "<div class='alert alert-danger'>
-									  <strong>Erro!</strong> Preencha os dois campos.
+									  <strong>Erro!</strong> Preencha todos os campos.
 								  </div>";
 						}
 					}
