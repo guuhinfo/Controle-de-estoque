@@ -140,6 +140,21 @@
 			</form>
 			<br>
 
+			<?php
+				if (isset($_GET['data']) && !empty($_GET['data'])) {
+					// pega data informada pelo usuario
+					$data = $_GET['data'];
+				}
+				else {
+					// recuperando a data atual
+					$data = date("Y-m-d");
+				}
+
+				$dataFormatada = date_format(date_create($data), 'd/m/Y');
+
+				echo "<h1 align='center'>$dataFormatada</h1><br>";
+			?>
+
 			<!--	Estoque		-->
 			<div class="card mb-3">
 				<div class="card-header"><i class="fa fa-table"></i> Histórico</div>
@@ -160,17 +175,6 @@
 							</tfoot>
 							<tbody>
 								<?php
-
-
-									if (isset($_GET['data']) && !empty($_GET['data'])) {
-										// pega data informada pelo usuario
-										$data = $_GET['data'];
-									}
-									else {
-										// recuperando a data atual
-										$data = date("Y-m-d");
-									}
-				
 									// busca por todos os itens
 									$sql = "SELECT item, SUM(t.quantidade) AS total
 												FROM (
