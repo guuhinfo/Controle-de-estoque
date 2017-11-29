@@ -20,13 +20,15 @@ create table estoque (
 	id int not null auto_increment,
     item varchar(100) not null unique,
     quantidade int not null,
+    validade date not null,
     primary key (id)
 ) default charset = utf8;
 
 /* cria tabela de histórico*/
 create table historico (
+	id int not null auto_increment,
     diaMesAno date not null,
-    item varchar(100) not null unique,
+    item varchar(100) not null,
     quantidade int not null,
-    primary key (diaMesAno)
+    primary key (id)
 ) default charset = utf8;
