@@ -8,6 +8,8 @@
 		// garante que o usuario não executará nenhum script malicioso no banco de dados
 		$nome = mysqli_real_escape_string($conn, $_POST['nome']);
 		$quantidade = mysqli_real_escape_string($conn, $_POST['quantidade']);
+		$validade = mysqli_real_escape_string($conn, $_POST['validade']);
+		$validade = date("Y/m/d", strtotime($validade));
 		
 		// passa para maiusculo
 		$nome = mb_strtoupper($nome, "UTF-8");
@@ -29,7 +31,7 @@
 			}
 			else {	
 				// insere no banco de dados
-				$sql = "INSERT INTO estoque VALUES (default, '$nome', '$quantidade');"; 
+				$sql = "INSERT INTO estoque VALUES (default, '$nome', '$quantidade', '$validade');";
 				mysqli_query($conn, $sql); // executa a query				
 
 				header("Location: ../../cadastrar-item.php?cadastro=sucesso");

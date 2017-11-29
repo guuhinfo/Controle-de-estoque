@@ -132,7 +132,7 @@
 			  		<div class="form-group row">
 						<label for="nome" class="col-sm-4 col-form-label">Nome</label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" id="nome" name="nome" placeholder="Molho de Tomate">
+							<input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: Molho de Tomate">
 						</div>
 					</div>
 					<div class="form-group row">
@@ -140,6 +140,13 @@
 						<div class="col-sm-8">
 							<input type="number" min="1" class="form-control" id="quantidade" name="quantidade" placeholder="Quantidade inicial">
 						</div>
+					</div>
+					<div class="form-group row">
+						<label for="validade" class="col-sm-4 col-form-label">Validade</label>
+						<div class="col-sm-8">
+							<input type="date" class="form-control" id="validade" name="validade">
+						</div>
+
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12">

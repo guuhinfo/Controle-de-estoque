@@ -133,28 +133,34 @@
 				<div class="menu">
 					<h2>Estoque</h2>
 					<div class="row">
-						<figure class="col-lg-3 col-md-3 col-sm-12">
+						<figure class="col-lg-4 col-md-4 col-sm-12">
 							<a href="alterar-item.php">
 								<img src="img/alterar-item.png" alt="Alterar Item">
 								<figcaption>Alterar Item</figcaption>
 							</a>
 						</figure>
-						<figure class="col-lg-3 col-md-3 col-sm-12">
+						<figure class="col-lg-4 col-md-4 col-sm-12">
 							<a href="buscar-item.php">
 								<img src="img/buscar-item.png" alt="Buscar Item">
 								<figcaption>Buscar Item</figcaption>
 							</a>
 						</figure>
-						<figure class="col-lg-3 col-md-3 col-sm-12">
+						<figure class="col-lg-4 col-md-4 col-sm-12">
 							<a href="cadastrar-item.php">
 								<img src="img/cadastrar-item.png" alt="Cadastrar item">
 								<figcaption>Cadastrar Item</figcaption>
 							</a>
 						</figure>
-						<figure class="col-lg-3 col-md-3 col-sm-12">
+						<figure class="col-lg-6 col-md-6 col-sm-12">
 							<a href="deletar-item.php">
 								<img src="img/deletar-item.png" alt="Deletar Item">
 								<figcaption>Deletar Item</figcaption>
+							</a>
+						</figure>
+						<figure class="col-lg-6 col-md-6 col-sm-12">
+							<a href="historico.php">
+								<img src="img/historico-item.png" alt="Histórico de Consumo">
+								<figcaption>Histórico</figcaption>
 							</a>
 						</figure>
 					</div>

@@ -138,6 +138,7 @@
 									<tr>
 										<th>Item</th>
 										<th>Quantidade</th>
+										<th>Validade (ano/mês/dia)</th>
 										<th>Alterar</th>
 									</tr>
 								</thead>
@@ -145,6 +146,7 @@
 									<tr>
 										<th>Item</th>
 										<th>Quantidade</th>
+										<th>Validade</th>
 										<th>Alterar</th>
 									</tr>
 								</tfoot>
@@ -152,7 +154,7 @@
 									<?php
 
 										// busca por todos os itens
-										$sql = "SELECT id, item, quantidade FROM estoque;";
+										$sql = "SELECT id, item, quantidade, validade FROM estoque;";
 
 										// se a busca retornar resultados
 										if ($res = mysqli_query($conn, $sql)) {
@@ -160,12 +162,13 @@
 											while ($row = mysqli_fetch_assoc($res)) {
 												$item = $row['item'];
 												$quantidade = $row['quantidade'];
+												$validade = $row['validade'];
 
 												// link para editar
 												$linkEditar = "<a href='alterar.php?item=".$row['id']."'>Editar</a>";
 
 												// imprime as linhas da tabela
-												printf("<tr><td>%s</td><td>%s</td><td>%s</td></tr>", $item, $quantidade, $linkEditar);
+												printf("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>", $item, $quantidade, $validade, $linkEditar);
 											}
 
 											mysqli_free_result($res);

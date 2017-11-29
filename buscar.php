@@ -102,6 +102,10 @@
 						// pega a quantidade do item buscado
 						$quantidade = $row['quantidade'];
 						
+						// armazenando o nome do item e a data atual para atualizar o histórico
+						$nome = $row['item'];
+						$data = date("Y-m-d");
+
 						// verifica se o usuário informou a quantidade usada do item selecionado
 						if (isset($_POST['saida'])) {
 							$saida = mysqli_real_escape_string($conn, $_POST['saida']);
@@ -140,6 +144,13 @@
 							echo "<div class='alert alert-success'>
 									  <strong>Sucesso!</strong> A quantidade do item foi atualizada.
 								  </div>";
+						}
+
+						// atuliza historico
+						if (isset($_POST['saida']) && !empty($_POST['saida']) && $saida > 0) {
+							$sql = "INSERT INTO historico VALUES (default, '$data', '$nome', '$saida');";
+
+							mysqli_query($conn, $sql);
 						}
 					}
 					else {

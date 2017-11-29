@@ -134,6 +134,7 @@
 					$id = 0;
 					$entrada = 0;
 					$saida = 0;
+					$msg = false;
 				
 					// guarda o id do item selecionado
 					if (isset($_GET['item']) && !empty($_GET['item'])) {
@@ -149,11 +150,8 @@
 						
 						$quantidade = $row['quantidade'];
 						
-						// armazenando a quantidade inicial e o nome do item para atualizar o histórico
-						$qtdd_inicial = $quantidade;
+						// armazenando o nome do item e a data atual para atualizar o histórico
 						$nome = $row['item'];
-
-						// recuperando a data atual
 						$data = date("Y-m-d");
 						
 						// verifica se o usuario informou uma saida
@@ -170,6 +168,12 @@
 							$quantidade = $quantidade + $entrada;
 						}
 
+						// verifica se o usuario informou uma data de validade
+						if (isset($_POST['validade']) && !empty($_POST['validade'])) {
+							$validade = mysqli_real_escape_string($conn, $_POST['validade']);
+							$validade = date("Y/m/d", strtotime($validade));
+						}
+
 						// imprime o form com a quantidade atualizada
 						printf("<form class='info-item' action='alterar.php?item=$id' method='post'>
 									<div class='form-group'>
@@ -181,6 +185,11 @@
 											<label class='col-md-2' for='saida'>Saída</label>
 											<input class='form-control col-md-4' type='number' min='0' id='saida' name='saida'>
 										</div>
+										<br>
+										<div class='row'>
+											<label class='col-sm-2' for='validade'>Validade</label>
+											<input class='col-sm-10 form-control' type='date' id='validade' name='validade'>
+										</div>
 										<button class='btn btn-primary'>Salvar</button>
 									</div>
 								</form>", $row['item'], $quantidade);
@@ -189,36 +198,47 @@
 				
 					// se o usuario nao informar entrada nem saida, exibe um erro
 					// se informar, atualiza a quantidade do item no banco
-					if (!empty($_POST['entrada']) || !empty($_POST['saida'])) {
+					if (!empty($_POST['entrada']) || !empty($_POST['saida']) || !empty($_POST['validade'])) {
 						$sql = "UPDATE estoque SET quantidade = '$quantidade' WHERE id='$id';";
 
 						if ($res = mysqli_query($conn, $sql)) {
-							echo "<div class='alert alert-success'>
-									  <strong>Sucesso!</strong> A quantidade do item foi atualizada.
-								  </div>";
+							$msg = "sucesso";
 						}
 
-						// armazena no histórico quantidade utilizada
-						$qtdd = $qtdd_inicial - $quantidade;
-						$sql = "UPDATE historico SET quantidade = '$qtdd' WHERE item='$nome' AND diaMesAno='$data';";
+						// atualizando a validade do item caso o usuário tenha informado nova data
+						if (isset($_POST['validade']) && !empty($_POST['validade'])) {
+							$sql_val = "UPDATE estoque SET validade = '$validade' WHERE id='$id'";
 
-						// se o update foi feito corretamente
-						if (mysqli_query($conn, $sql)) {
-							exit();
+							if (mysqli_query($conn, $sql_val)) {
+								$msg = "sucesso";
+							}
 						}
-						else{
-							// insere o novo consumo no historico
-							$sql = "INSERT INTO historico (diaMesAno, item, quantidade) VALUES ('$data', '$nome', '$qtdd');";
+
+						// atuliza historico
+						if (isset($_POST['saida']) && !empty($_POST['saida']) && $saida > 0) {
+							$sql = "INSERT INTO historico VALUES (default, '$data', '$nome', '$saida');";
+
 							mysqli_query($conn, $sql);
-							exit();
 						}
 					}
-					// verifica se o usuario clicou no botao salvar
+					// se o usuário não preencheu nenhum dos campos e clicou em salvar
 					else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+						$msg = "erro";
+					}
+
+					// exibe mensagem de sucesso ou erro
+					if ($msg == "sucesso") {
+						echo "<div class='alert alert-success'>
+							     <strong>Sucesso!</strong> O item foi atualizado com sucesso.
+							  </div>";
+					}
+					else if ($msg == "erro") {
 						echo "<div class='alert alert-danger'>
 							     <strong>Erro!</strong> Quantidade inválida.
 							  </div>";
-					}								
+					}
+
+
 				?>
 			</div>
 

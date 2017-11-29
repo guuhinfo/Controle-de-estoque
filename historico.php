@@ -129,39 +129,61 @@
 			</ol>
 			
 			<div>
+
+			<form class="form-inline" action="historico.php" method="GET">
+				<div class="form-group">
+					<label for="data">Data</label>
+					<input type="date" id="data" name="data" class="form-control mx-sm-3">
+					<button type="submit" class="btn btn-primary">Filtrar</button>
+				</div>
+
+			</form>
+			<br>
+
 			<!--	Estoque		-->
 			<div class="card mb-3">
-				<div class="card-header"><i class="fa fa-table"></i> Estoque</div>
+				<div class="card-header"><i class="fa fa-table"></i> Histórico</div>
 				<div class="card-body">
 					<div class="table-responsive">
 						<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
 							<thead>
 								<tr>
 									<th>Item</th>
-									<th>Quantidade</th>
+									<th>Quantidade Consumida</th>
 								</tr>
 							</thead>
 							<tfoot>
 								<tr>
 									<th>Item</th>
-									<th>Quantidade</th>
+									<th>Quantidade Consumida</th>
 								</tr>
 							</tfoot>
 							<tbody>
 								<?php
 
-									// recuperando a data atual
-									$data = date("Y-m-d");
+
+									if (isset($_GET['data']) && !empty($_GET['data'])) {
+										// pega data informada pelo usuario
+										$data = $_GET['data'];
+									}
+									else {
+										// recuperando a data atual
+										$data = date("Y-m-d");
+									}
 				
 									// busca por todos os itens
-									$sql = "SELECT diaMesAno, item, quantidade FROM historico WHERE quantidade > 0 AND diaMesAno = $data;";
+									$sql = "SELECT item, SUM(t.quantidade) AS total
+												FROM (
+													SELECT diaMesAno, item, quantidade FROM historico WHERE quantidade > 0 and diaMesAno='$data'
+												) t
+											GROUP BY item;";
 
 									// se a busca retornar resultados
 									if ($res = mysqli_query($conn, $sql)) {
 										// percorre pelos resultados
 										while ($row = mysqli_fetch_assoc($res)) {
 											$item = $row['item'];
-											$quantidade = $row['quantidade'];
+											$quantidade = $row['total'];
 
 											// imprime as linhas da tabela
 											printf("<tr><td>%s</td><td>%s</td></tr>", $item, $quantidade);
