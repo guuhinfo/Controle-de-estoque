@@ -107,7 +107,7 @@
 						$data = date("Y-m-d");
 
 						// verifica se o usuário informou a quantidade usada do item selecionado
-						if (isset($_POST['saida'])) {
+						if (isset($_POST['saida']) && !empty($_POST['saida'])) {
 							$saida = mysqli_real_escape_string($conn, $_POST['saida']);
 							
 							// quantidade inválida, exibe erro
@@ -120,6 +120,9 @@
 								// calcula nova quantidade
 								$quantidade = $quantidade - $saida;
 							}
+						}
+						else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+							$msg = "erro";
 						}
 
 						// imprime formulario de alteração na tela
@@ -137,7 +140,7 @@
 					
 				
 					// e o usuário informou uma quantidade de saída válida, altera a quantidade no banco
-					if (isset($_POST['saida']) && !$msg) {				
+					if (isset($_POST['saida']) && !empty($_POST['saida']) && $msg != "erro") {
 						$sql = "UPDATE estoque SET quantidade = '$quantidade' WHERE id='$id';";
 
 						if ($res = mysqli_query($conn, $sql)) {
@@ -153,8 +156,10 @@
 							mysqli_query($conn, $sql);
 						}
 					}
-					else {
-						echo $msg;
+					else if ($msg == "erro") {
+						echo "<div class='alert alert-danger'>
+								<strong>Erro!</strong> Quantidade usada inválida.
+							</div>";
 					}
 				?>
 			</div>
