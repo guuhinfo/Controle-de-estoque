@@ -129,6 +129,7 @@
 
 			<div class="caixa">
 				<h1>Deletar Usuário</h1>
+				<p align='center'><em>Selecione o usuário a ser deletado</em></p>
 				<form action="includes/usuario/deletar.inc.php">
 					<div class="form-group select-caixa">
 						<select class="lista-estoque chosen-select" onchange="clienteChange()" id="estoque" name="id" type="search">

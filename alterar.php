@@ -178,6 +178,7 @@
 						printf("<form class='info-item' action='alterar.php?item=$id' method='post'>
 									<div class='form-group'>
 										<h1>%s</h1>
+										<p align='center'><em>Informe um ou mais dos campos abaixo</em></p>
 										<p>Quantidade atual: %d</p>
 										<div class='row'>
 											<label class='col-md-2' for='entrada'>Entrada</label>

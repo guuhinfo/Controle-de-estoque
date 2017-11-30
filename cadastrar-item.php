@@ -128,6 +128,8 @@
 			</ol>
 
 			<div class="col-lg-4 col-md-10 col-sm-12 center">
+				<h1 align='center'>Cadastrar Item</h1>
+				<br><br>
 				<form method="post" action="includes/estoque/cadastrar.inc.php">
 			  		<div class="form-group row">
 						<label for="nome" class="col-sm-4 col-form-label">Nome</label>

@@ -129,6 +129,7 @@
 						printf("<form class='info-item' action='buscar.php?item=$id' method='post'>
 									<div class='form-group'>
 										<h1>%s</h1>
+										<p align='center'><em>Informe a quantidade consumida do item</em></p>
 										<p>Quantidade atual: %d</p>
 										<label for='saida'>Quantidade usada:</label>
 										<input class='form-control' type='number' min='1' name='saida' id='saida'>

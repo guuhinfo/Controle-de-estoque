@@ -139,7 +139,7 @@
 
 			</form>
 			<br>
-
+			<!-- Pega data e mostra para o usuário a data escolhida -->
 			<?php
 				if (isset($_GET['data']) && !empty($_GET['data'])) {
 					// pega data informada pelo usuario

@@ -129,6 +129,7 @@
 
 			<div class="caixa">
 				<h1>Deletar Item</h1>
+				<p align='center'><em>Selecione o item a ser deletado</em></p>
 				<form action="includes/estoque/deletar.inc.php">
 					<div class="form-group select-caixa">
 						<select class="lista-estoque chosen-select" onchange="clienteChange()" id="estoque" name="item" type="search">
