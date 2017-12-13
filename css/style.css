@@ -36,7 +36,7 @@ figure a, figure a:hover, figure a:active, figure a:visited {
 
 .center {
 	margin: 0 auto;
-	margin-top: 15%;
+	margin-top: 10%;
 }
 
 .caixa {
@@ -62,6 +62,13 @@ figure a, figure a:hover, figure a:active, figure a:visited {
 .info-item button {
 	margin: 20px 0;
 	width: 100%;
+}
+
+.info-item input[type=submit] {
+	margin: 20px 0;
+	width: 100%;
+	color: white;
+	cursor: pointer;
 }
 
 .info-item h1 {

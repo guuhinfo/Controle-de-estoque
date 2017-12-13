@@ -130,29 +130,39 @@
 			
 			<div>
 
+			<p><strong>Selecione o período desejado:</strong></p>
 			<form class="form-inline" action="historico.php" method="GET">
 				<div class="form-group">
-					<label for="data">Data</label>
-					<input type="date" id="data" name="data" class="form-control mx-sm-3">
+					<label for="data-inicial">Data Inicial</label>
+					<input type="date" id="data-inicial" name="data-inicial" class="form-control mx-sm-3">
+					<label for="data-final">Data Final</label>
+					<input type="date" id="data-final" name="data-final" class="form-control mx-sm-3">
 					<button type="submit" class="btn btn-primary">Filtrar</button>
 				</div>
 
 			</form>
 			<br>
-			<!-- Pega data e mostra para o usuário a data escolhida -->
+			<!-- Pega intervalo de datas e mostra para o usuário o intervalo escolhido -->
 			<?php
-				if (isset($_GET['data']) && !empty($_GET['data'])) {
-					// pega data informada pelo usuario
-					$data = $_GET['data'];
+				if (isset($_GET['data-inicial']) && !empty($_GET['data-inicial'])) {
+					// pega data inicial informada pelo usuario
+					$data_inicial = $_GET['data-inicial'];
+
+					if (isset($_GET['data-final']) && !empty($_GET['data-final'])) {
+						// pega data final informada pelo usuario
+						$data_final = $_GET['data-final'];
+					}
 				}
 				else {
 					// recuperando a data atual
-					$data = date("Y-m-d");
+					$data_inicial = date("Y-m-d");
+					$data_final = date("Y-m-d");
 				}
 
-				$dataFormatada = date_format(date_create($data), 'd/m/Y');
+				$dataInicialFormatada = date_format(date_create($data_inicial), 'd/m/Y');
+				$dataFinalFormatada = date_format(date_create($data_final), 'd/m/Y');
 
-				echo "<h1 align='center'>$dataFormatada</h1><br>";
+				echo "<h1 align='center'>$dataInicialFormatada até $dataFinalFormatada</h1><br>";
 			?>
 
 			<!--	Estoque		-->
@@ -176,11 +186,11 @@
 							<tbody>
 								<?php
 									// busca por todos os itens
-									$sql = "SELECT item, SUM(t.quantidade) AS total
+									$sql = "SELECT item, SUM(t.quantidade) AS total, unidade
 												FROM (
-													SELECT diaMesAno, item, quantidade FROM historico WHERE quantidade > 0 and diaMesAno='$data'
+													SELECT diaMesAno, item, quantidade, unidade FROM historico WHERE quantidade > 0 AND (diaMesAno >= '$data_inicial' AND diaMesAno <= '$data_final')
 												) t
-											GROUP BY item;";
+											GROUP BY item, unidade;";
 
 									// se a busca retornar resultados
 									if ($res = mysqli_query($conn, $sql)) {
@@ -188,9 +198,10 @@
 										while ($row = mysqli_fetch_assoc($res)) {
 											$item = $row['item'];
 											$quantidade = $row['total'];
+											$unidade = $row['unidade'];
 
 											// imprime as linhas da tabela
-											printf("<tr><td>%s</td><td>%s</td></tr>", $item, $quantidade);
+											printf("<tr><td>%s</td><td>%s %s</td></tr>", $item, $quantidade, $unidade);
 										}
 
 										mysqli_free_result($res);

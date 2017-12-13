@@ -146,7 +146,7 @@
 					<div class="form-group row">
 						<label for="senha" class="col-sm-4 col-form-label">Senha</label>
 						<div class="col-sm-8">
-							<input type="password" class="form-control" id="senha" name="senha" placeholder="Senha com no máximo 20 characteres">
+							<input type="password" class="form-control" id="senha" name="senha" placeholder="Senha com no máximo 20 caracteres">
 						</div>
 					</div>
 					<div class="form-group row">

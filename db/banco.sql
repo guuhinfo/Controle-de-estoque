@@ -20,6 +20,7 @@ create table estoque (
 	id int not null auto_increment,
     item varchar(100) not null unique,
     quantidade int not null,
+    unidade varchar(20) not null,
     validade date not null,
     primary key (id)
 ) default charset = utf8;
@@ -30,5 +31,15 @@ create table historico (
     diaMesAno date not null,
     item varchar(100) not null,
     quantidade int not null,
+    unidade varchar(20) not null,
     primary key (id)
 ) default charset = utf8;
+
+select * from historico;
+
+
+SELECT item, SUM(t.quantidade) AS total, t.unidade
+FROM (
+	SELECT diaMesAno, item, quantidade, unidade FROM historico WHERE quantidade > 0 AND (diaMesAno >= '2017-12-13' AND diaMesAno <= '2017-12-13')
+) t
+GROUP BY item, unidade;

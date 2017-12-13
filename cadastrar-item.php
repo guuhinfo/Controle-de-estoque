@@ -138,6 +138,18 @@
 						</div>
 					</div>
 					<div class="form-group row">
+						<label for="unidade" class="col-sm-4 col-form-label">Unidade</label>
+						<div class="col-sm-8">
+							<select class="form-control" name="unidade" id="unidade">
+								<option value="kg">kg</option>
+								<option value="latas">latas</option>
+								<option value="litros">litros</option>
+								<option value="pcts">pcts</option>
+								<option value="unitario">unitário</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
 						<label for="quantidade" class="col-sm-4 col-form-label">Quantidade</label>
 						<div class="col-sm-8">
 							<input type="number" min="1" class="form-control" id="quantidade" name="quantidade" placeholder="Quantidade inicial">

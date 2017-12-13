@@ -126,14 +126,14 @@
 						}
 
 						// imprime formulario de alteração na tela
-						printf("<form class='info-item' action='buscar.php?item=$id' method='post'>
+						printf("<form class='info-item' onsubmit='return confirma(this)' method='post'>
 									<div class='form-group'>
 										<h1>%s</h1>
 										<p align='center'><em>Informe a quantidade consumida do item</em></p>
 										<p>Quantidade atual: %d</p>
 										<label for='saida'>Quantidade usada:</label>
 										<input class='form-control' type='number' min='1' name='saida' id='saida'>
-										<button class='btn btn-primary'>Salvar</button>
+										<input type='submit' class='btn btn-primary'>
 									</div>
 								</form>", $row['item'], $quantidade);
 					}
@@ -192,6 +192,16 @@
 		</div>
 	</div>
 	
+	<script>
+		function confirma() {
+			console.log("Teste");
+			if (window.confirm("Tem certeza que a quantidade está correta?")) {
+				return true;
+			}
+			return false;
+		}
+	</script>
+
 	<!-- Bootstrap core JavaScript-->
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/popper/popper.min.js"></script>
@@ -199,7 +209,7 @@
 	<!-- Core plugin JavaScript-->
 	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 	<!-- Page level plugin JavaScript-->
-	<script src="vendor/chart.js/Chart.min.js"></script>
+<!--	<script src="vendor/chart.js/Chart.min.js"></script>-->
 	<script src="vendor/datatables/jquery.dataTables.js"></script>
 	<script src="vendor/datatables/dataTables.bootstrap4.js"></script>
 	<!-- Custom scripts for all pages-->
@@ -208,7 +218,7 @@
 	<script src="js/custom.js"></script>
 	<!-- Custom scripts for this page-->
 	<script src="js/sb-admin-datatables.min.js"></script>
-	<script src="js/sb-admin-charts.min.js"></script>
+<!--	<script src="js/sb-admin-charts.min.js"></script>-->
 </body>
 
 </html>

@@ -142,13 +142,14 @@
 					}
 
 					// busca pelo item
-					$sql = "SELECT id, item, quantidade FROM estoque WHERE id='$id';";
+					$sql = "SELECT id, item, quantidade, unidade FROM estoque WHERE id='$id';";
 
 					// verifica se encontrou resultado
 					if ($res = mysqli_query($conn, $sql)) {
 						$row = mysqli_fetch_assoc($res);
 						
 						$quantidade = $row['quantidade'];
+						$unidade = $row['unidade'];
 						
 						// armazenando o nome do item e a data atual para atualizar o histórico
 						$nome = $row['item'];
@@ -179,7 +180,7 @@
 									<div class='form-group'>
 										<h1>%s</h1>
 										<p align='center'><em>Informe um ou mais dos campos abaixo</em></p>
-										<p>Quantidade atual: %d</p>
+										<p>Quantidade atual: %d %s</p>
 										<div class='row'>
 											<label class='col-md-2' for='entrada'>Entrada</label>
 											<input class='form-control col-md-4' type='number' min='0' id='entrada' name='entrada'>
@@ -193,7 +194,7 @@
 										</div>
 										<button class='btn btn-primary'>Salvar</button>
 									</div>
-								</form>", $row['item'], $quantidade);
+								</form>", $row['item'], $quantidade, $unidade);
 					}
 					
 				
@@ -217,7 +218,7 @@
 
 						// atuliza historico
 						if (isset($_POST['saida']) && !empty($_POST['saida']) && $saida > 0) {
-							$sql = "INSERT INTO historico VALUES (default, '$data', '$nome', '$saida');";
+							$sql = "INSERT INTO historico VALUES (default, '$data', '$nome', '$saida', '$unidade');";
 
 							mysqli_query($conn, $sql);
 						}
