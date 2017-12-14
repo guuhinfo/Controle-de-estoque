@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	include_once("includes/conn.inc.php");
-	
+
 	// verifica se o usuario realizou o login
 	if (!isset($_SESSION['id']) || $_SESSION['tipo'] != 'admin') {
 		header("Location: index.html");
@@ -68,7 +68,7 @@
 								<span class="nav-link-text">Cadastrar Item</span>
 							</a>
 						</li>
-						
+
 						<li>
 							<a class="nav-link" href="deletar-item.php">
 								<span class="nav-link-text">Deletar Item</span>
@@ -129,95 +129,77 @@
 				<li class="breadcrumb-item">
 					<a href="painel-admin.php">Painel</a>
 				</li>
-				<li class="breadcrumb-item active">Início</li>
+				<li class="breadcrumb-item active">Listas de Compras</li>
 			</ol>
 
-			<!--		MENU		-->
-			<div class="opcoes">
-				<!--		Estoque		-->
-				<div class="menu">
-					<h2>Estoque</h2>
-					<div class="row">
-						<figure class="col-lg-4 col-md-4 col-sm-12">
-							<a href="alterar-item.php">
-								<img src="img/alterar-item.png" alt="Alterar Item">
-								<figcaption>Alterar Item</figcaption>
-							</a>
-						</figure>
-						<figure class="col-lg-4 col-md-4 col-sm-12">
-							<a href="buscar-item.php">
-								<img src="img/buscar-item.png" alt="Buscar Item">
-								<figcaption>Buscar Item</figcaption>
-							</a>
-						</figure>
-						<figure class="col-lg-4 col-md-4 col-sm-12">
-							<a href="cadastrar-item.php">
-								<img src="img/cadastrar-item.png" alt="Cadastrar item">
-								<figcaption>Cadastrar Item</figcaption>
-							</a>
-						</figure>
-						<figure class="col-lg-4 col-md-4 col-sm-12">
-							<a href="deletar-item.php">
-								<img src="img/deletar-item.png" alt="Deletar Item">
-								<figcaption>Deletar Item</figcaption>
-							</a>
-						</figure>
-						<figure class="col-lg-4 col-md-4 col-sm-12">
-							<a href="listas.php">
-								<img src="img/listas.png" alt="Histórico de Consumo">
-								<figcaption>Listas</figcaption>
-							</a>
-						</figure>
-						<figure class="col-lg-4 col-md-4 col-sm-12">
-							<a href="relatorio.php">
-								<img src="img/historico-item.png" alt="Histórico de Consumo">
-								<figcaption>Relatório</figcaption>
-							</a>
-						</figure>
+			<div>
+				<!--	Estoque		-->
+				<div class="card mb-3">
+					<div class="card-header"><i class="fa fa-table"></i> Listas de Compras</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+								<thead>
+									<tr>
+										<th>Item</th>
+										<th>Deletar</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th>Item</th>
+										<th>Deletar</th>
+									</tr>
+								</tfoot>
+								<tbody>
+									<?php
+										$sql = "SELECT DISTINCT listaid FROM listas;";
+
+										// se a busca retornar resultados
+										if ($res = mysqli_query($conn, $sql)) {
+											// percorre pelos resultados
+											while ($row = mysqli_fetch_assoc($res)) {
+												$id = $row['listaid'];
+
+												$linkLista = "<a href='lista.php?id=$id'>$id</a>";
+
+												// link para deletar
+												$linkDeletar = "<a href='includes/estoque/del-lista.inc.php?id=$id'>Deletar</a>";
+
+												// imprime as linhas da tabela
+												printf("<tr><td>%s</td><td>%s</td></tr>", $linkLista, $linkDeletar);
+											}
+
+											mysqli_free_result($res);
+										}
+									?>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
+			</div>
 
-				
-				<!--		Usuário		-->
-				<div class="menu">
-					<h2>Usuário</h2>
-					<div class="row">
-						<figure class="col-lg-6 col-md-6 col-sm-12">
-							<a href="cadastrar-usuario.php">
-								<img src="img/cadastrar-user.png" alt="Cadastrar Usuário">
-								<figcaption>Cadastrar Usuário</figcaption>
-							</a>
-						</figure>
-						<figure class="col-lg-6 col-md-6 col-sm-12">
-							<a href="deletar-usuario.php">
-								<img src="img/deletar-user.png" alt="Deletar Usuário">
-								<figcaption>Deletar Usuário</figcaption>
-							</a>
-						</figure>
-					</div>
-				</div>
-
-				<!-- Scroll to Top Button-->
-				<a class="scroll-to-top rounded" href="#page-top">
-					<i class="fa fa-angle-up"></i>
-				</a>
-				<!-- Logout Modal-->
-				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">Tem certeza que deseja sair?</h5>
-								<button class="close" type="button" data-dismiss="modal" aria-label="Close">
-						  <span aria-hidden="true">×</span>
-						</button>
-							</div>
-							<div class="modal-body">Clique em "Sair" se deseja encerrar a sessão atual.</div>
-							<div class="modal-footer">
-								<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-								<form action="includes/logout.inc.php" method="post">
-									<button class="btn btn-primary" type="submit">Sair</button>
-								</form>
-							</div>
+			<!-- Scroll to Top Button-->
+			<a class="scroll-to-top rounded" href="#page-top">
+				<i class="fa fa-angle-up"></i>
+			</a>
+			<!-- Logout Modal-->
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Tem certeza que deseja sair?</h5>
+							<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+					  <span aria-hidden="true">×</span>
+					</button>
+						</div>
+						<div class="modal-body">Clique em "Sair" se deseja encerrar a sessão atual.</div>
+						<div class="modal-footer">
+							<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+							<form action="includes/logout.inc.php" method="post">
+								<button class="btn btn-primary" type="submit">Sair</button>
+							</form>
 						</div>
 					</div>
 				</div>

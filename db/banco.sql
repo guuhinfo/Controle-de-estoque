@@ -35,11 +35,12 @@ create table historico (
     primary key (id)
 ) default charset = utf8;
 
-select * from historico;
-
-
-SELECT item, SUM(t.quantidade) AS total, t.unidade
-FROM (
-	SELECT diaMesAno, item, quantidade, unidade FROM historico WHERE quantidade > 0 AND (diaMesAno >= '2017-12-13' AND diaMesAno <= '2017-12-13')
-) t
-GROUP BY item, unidade;
+/* cria tabela de listas */
+create table listas (
+	id int not null auto_increment,
+    itemid int not null,
+    item varchar(100) not null,
+    data date not null,
+    listaid varchar(256) not null,
+    primary key (id)
+) default charset = utf8;

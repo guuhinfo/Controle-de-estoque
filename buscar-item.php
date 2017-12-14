@@ -75,8 +75,13 @@
 							</a>
 						</li>
 						<li>
-							<a class="nav-link" href="historico.php">
-								<span class="nav-link-text">Histórico</span>
+							<a class="nav-link" href="listas.php">
+								<span class="nav-link-text">Listas</span>
+							</a>
+						</li>
+						<li>
+							<a class="nav-link" href="relatorio.php">
+								<span class="nav-link-text">Relatório</span>
 							</a>
 						</li>
 					</ul>
@@ -124,7 +129,7 @@
 				<li class="breadcrumb-item">
 					<a href="painel-admin.php">Painel</a>
 				</li>
-				<li class="breadcrumb-item active">Início</li>
+				<li class="breadcrumb-item active">Buscar</li>
 			</ol>
 
 			<div>
@@ -133,50 +138,54 @@
 					<div class="card-header"><i class="fa fa-table"></i> Estoque</div>
 					<div class="card-body">
 						<div class="table-responsive">
-							<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
-								<thead>
-									<tr>
-										<th>Item</th>
-										<th>Quantidade</th>
-										<th>Validade (ano/mês/dia)</th>
-										<th>Alterar</th>
-									</tr>
-								</thead>
-								<tfoot>
-									<tr>
-										<th>Item</th>
-										<th>Quantidade</th>
-										<th>Validade</th>
-										<th>Alterar</th>
-									</tr>
-								</tfoot>
-								<tbody>
-									<?php
+							<form action="includes/estoque/lista.inc.php" method="post">
+								<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+									<thead>
+										<tr>
+											<th>Item</th>
+											<th>Quantidade</th>
+											<th>Validade (ano/mês/dia)</th>
+											<th>Alterar</th>
+										</tr>
+									</thead>
+									<tfoot>
+										<tr>
+											<th>Item</th>
+											<th>Quantidade</th>
+											<th>Validade</th>
+											<th>Alterar</th>
+										</tr>
+									</tfoot>
+									<tbody>
+										<?php
 
-										// busca por todos os itens
-										$sql = "SELECT id, item, quantidade, unidade, validade FROM estoque;";
+											// busca por todos os itens
+											$sql = "SELECT id, item, quantidade, unidade, validade FROM estoque;";
 
-										// se a busca retornar resultados
-										if ($res = mysqli_query($conn, $sql)) {
-											// percorre pelos resultados
-											while ($row = mysqli_fetch_assoc($res)) {
-												$item = $row['item'];
-												$quantidade = $row['quantidade'];
-												$unidade = $row['unidade'];
-												$validade = $row['validade'];
+											// se a busca retornar resultados
+											if ($res = mysqli_query($conn, $sql)) {
+												// percorre pelos resultados
+												while ($row = mysqli_fetch_assoc($res)) {
+													$item = $row['item'];
+													$quantidade = $row['quantidade'];
+													$unidade = $row['unidade'];
+													$validade = $row['validade'];
 
-												// link para editar
-												$linkEditar = "<a href='alterar.php?item=".$row['id']."'>Editar</a>";
+													// link para editar
+													$linkEditar = "<a href='alterar.php?item=".$row['id']."'>Editar</a>";
 
-												// imprime as linhas da tabela
-												printf("<tr><td>%s</td><td>%s %s</td><td>%s</td><td>%s</td></tr>", $item, $quantidade, $unidade, $validade, $linkEditar);
+													// imprime as linhas da tabela
+													printf("<tr><td><input type='checkbox' value='%d' name='lista[]'> %s</td><td>%s %s</td><td>%s</td><td>%s</td></tr>", $row['id'], $item, $quantidade, $unidade, $validade, $linkEditar);
+												}
+
+												mysqli_free_result($res);
 											}
-
-											mysqli_free_result($res);
-										}
-									?>
-								</tbody>
-							</table>
+										?>
+									</tbody>
+								</table>
+								<br>
+								<button type="submit" class="btn btn-primary btn-lista">Gerar Lista</button>
+							</form>
 						</div>
 					</div>
 				</div>

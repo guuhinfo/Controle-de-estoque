@@ -75,8 +75,13 @@
 							</a>
 						</li>
 						<li>
-							<a class="nav-link" href="historico.php">
-								<span class="nav-link-text">Histórico</span>
+							<a class="nav-link" href="listas.php">
+								<span class="nav-link-text">Listas</span>
+							</a>
+						</li>
+						<li>
+							<a class="nav-link" href="relatorio.php">
+								<span class="nav-link-text">Relatório</span>
 							</a>
 						</li>
 					</ul>

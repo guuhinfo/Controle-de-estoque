@@ -1,9 +1,9 @@
 <?php
 	session_start();
 	include_once("includes/conn.inc.php");
-	
+
 	// verifica se o usuario realizou o login
-	if (!isset($_SESSION['id'])) {
+	if (!isset($_SESSION['id']) || $_SESSION['tipo'] != 'admin') {
 		header("Location: index.html");
 		exit;
 	}
@@ -33,7 +33,7 @@
 	<link href="css/sb-admin.css" rel="stylesheet">
 	<!-- CSS personalizado -->
 	<link rel="stylesheet" href="css/style.css">
-	<!--  Bootstrap Chosen	-->
+<!--	<link href="http://harvesthq.github.io/chosen/chosen.css" rel="stylesheet"/>-->
 	<link rel="stylesheet" href="css/bootstrap-chosen.css">
 </head>
 
@@ -68,15 +68,20 @@
 								<span class="nav-link-text">Cadastrar Item</span>
 							</a>
 						</li>
-						
+
 						<li>
 							<a class="nav-link" href="deletar-item.php">
 								<span class="nav-link-text">Deletar Item</span>
 							</a>
 						</li>
 						<li>
-							<a class="nav-link" href="historico.php">
-								<span class="nav-link-text">Histórico</span>
+							<a class="nav-link" href="listas.php">
+								<span class="nav-link-text">Listas</span>
+							</a>
+						</li>
+						<li>
+							<a class="nav-link" href="relatorio.php">
+								<span class="nav-link-text">Relatório</span>
 							</a>
 						</li>
 					</ul>
@@ -116,7 +121,6 @@
 			</ul>
 		</div>
 	</nav>
-	
 
 	<div class="content-wrapper">
 		<div class="container-fluid">
@@ -125,94 +129,46 @@
 				<li class="breadcrumb-item">
 					<a href="painel-admin.php">Painel</a>
 				</li>
-				<li class="breadcrumb-item active">Histórico</li>
+				<li class="breadcrumb-item active">Lista de Compras</li>
 			</ol>
-			
+
 			<div>
+				<!--	Estoque		-->
+				<div class="card mb-3">
+					<div class="card-header"><i class="fa fa-table"></i> Lista de Compras</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+								<thead>
+									<tr>
+										<th>Item</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th>Item</th>
+									</tr>
+								</tfoot>
+								<tbody>
+									<?php
+										$id = $_GET['id'];
 
-			<p><strong>Selecione o período desejado:</strong></p>
-			<form class="form-inline" action="historico.php" method="GET">
-				<div class="form-group">
-					<label for="data-inicial">Data Inicial</label>
-					<input type="date" id="data-inicial" name="data-inicial" class="form-control mx-sm-3">
-					<label for="data-final">Data Final</label>
-					<input type="date" id="data-final" name="data-final" class="form-control mx-sm-3">
-					<button type="submit" class="btn btn-primary">Filtrar</button>
-				</div>
+										$sql = "SELECT id, item FROM listas WHERE listaid = '$id';";
 
-			</form>
-			<br>
-			<!-- Pega intervalo de datas e mostra para o usuário o intervalo escolhido -->
-			<?php
-				if (isset($_GET['data-inicial']) && !empty($_GET['data-inicial'])) {
-					// pega data inicial informada pelo usuario
-					$data_inicial = $_GET['data-inicial'];
+										if ($res = mysqli_query($conn, $sql)) {
+											while ($row = mysqli_fetch_assoc($res)) {
+												$item = $row['item'];
 
-					if (isset($_GET['data-final']) && !empty($_GET['data-final'])) {
-						// pega data final informada pelo usuario
-						$data_final = $_GET['data-final'];
-					}
-				}
-				else {
-					// recuperando a data atual
-					$data_inicial = date("Y-m-d");
-					$data_final = date("Y-m-d");
-				}
-
-				$dataInicialFormatada = date_format(date_create($data_inicial), 'd/m/Y');
-				$dataFinalFormatada = date_format(date_create($data_final), 'd/m/Y');
-
-				echo "<h1 align='center'>$dataInicialFormatada até $dataFinalFormatada</h1><br>";
-			?>
-
-			<!--	Estoque		-->
-			<div class="card mb-3">
-				<div class="card-header"><i class="fa fa-table"></i> Histórico</div>
-				<div class="card-body">
-					<div class="table-responsive">
-						<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
-							<thead>
-								<tr>
-									<th>Item</th>
-									<th>Quantidade Consumida</th>
-								</tr>
-							</thead>
-							<tfoot>
-								<tr>
-									<th>Item</th>
-									<th>Quantidade Consumida</th>
-								</tr>
-							</tfoot>
-							<tbody>
-								<?php
-									// busca por todos os itens
-									$sql = "SELECT item, SUM(t.quantidade) AS total, unidade
-												FROM (
-													SELECT diaMesAno, item, quantidade, unidade FROM historico WHERE quantidade > 0 AND (diaMesAno >= '$data_inicial' AND diaMesAno <= '$data_final')
-												) t
-											GROUP BY item, unidade;";
-
-									// se a busca retornar resultados
-									if ($res = mysqli_query($conn, $sql)) {
-										// percorre pelos resultados
-										while ($row = mysqli_fetch_assoc($res)) {
-											$item = $row['item'];
-											$quantidade = $row['total'];
-											$unidade = $row['unidade'];
-
-											// imprime as linhas da tabela
-											printf("<tr><td>%s</td><td>%s %s</td></tr>", $item, $quantidade, $unidade);
+												printf("<tr><td>%s</td></tr>", $item);
+											}
 										}
-
-										mysqli_free_result($res);
-									}
-								?>
-							</tbody>
-						</table>
+									?>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
 			<!-- Scroll to Top Button-->
 			<a class="scroll-to-top rounded" href="#page-top">
@@ -239,25 +195,24 @@
 				</div>
 			</div>
 		</div>
+		<!-- Bootstrap core JavaScript-->
+		<script src="vendor/jquery/jquery.min.js"></script>
+		<script src="vendor/popper/popper.min.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+		<!-- Core plugin JavaScript-->
+		<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+		<!-- Page level plugin JavaScript-->
+		<script src="vendor/chart.js/Chart.min.js"></script>
+		<script src="vendor/datatables/jquery.dataTables.js"></script>
+		<script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+		<!-- Custom scripts for all pages-->
+		<script src="js/sb-admin.min.js"></script>
+		<script src="http://harvesthq.github.io/chosen/chosen.jquery.js"></script>
+		<script src="js/custom.js"></script>
+		<!-- Custom scripts for this page-->
+		<script src="js/sb-admin-datatables.min.js"></script>
+		<script src="js/sb-admin-charts.min.js"></script>
 	</div>
-	
-	<!-- Bootstrap core JavaScript-->
-	<script src="vendor/jquery/jquery.min.js"></script>
-	<script src="vendor/popper/popper.min.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-	<!-- Core plugin JavaScript-->
-	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-	<!-- Page level plugin JavaScript-->
-	<script src="vendor/chart.js/Chart.min.js"></script>
-	<script src="vendor/datatables/jquery.dataTables.js"></script>
-	<script src="vendor/datatables/dataTables.bootstrap4.js"></script>
-	<!-- Custom scripts for all pages-->
-	<script src="js/sb-admin.min.js"></script>
-	<script src="http://harvesthq.github.io/chosen/chosen.jquery.js"></script>
-	<script src="js/custom.js"></script>
-	<!-- Custom scripts for this page-->
-	<script src="js/sb-admin-datatables.min.js"></script>
-	<script src="js/sb-admin-charts.min.js"></script>
 </body>
 
 </html>

@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	include_once("includes/conn.inc.php");
-	
+
 	// verifica se o usuario realizou o login
 	if (!isset($_SESSION['id'])) {
 		header("Location: index.html");
@@ -68,7 +68,7 @@
 								<span class="nav-link-text">Cadastrar Item</span>
 							</a>
 						</li>
-						
+
 						<li>
 							<a class="nav-link" href="deletar-item.php">
 								<span class="nav-link-text">Deletar Item</span>
@@ -121,7 +121,7 @@
 			</ul>
 		</div>
 	</nav>
-	
+
 
 	<div class="content-wrapper">
 		<div class="container-fluid">
@@ -130,124 +130,94 @@
 				<li class="breadcrumb-item">
 					<a href="painel-admin.php">Painel</a>
 				</li>
-				<li class="breadcrumb-item active">Alterar</li>
+				<li class="breadcrumb-item active">Relatório</li>
 			</ol>
-			
-			<div class="caixa">
-			
-				<?php
-					$id = 0;
-					$entrada = 0;
-					$saida = 0;
-					$msg = false;
-				
-					// guarda o id do item selecionado
-					if (isset($_GET['item']) && !empty($_GET['item'])) {
-						$id = mysqli_real_escape_string($conn, $_GET['item']);
+
+			<div>
+
+			<p><strong>Selecione o período desejado:</strong></p>
+			<form class="form-inline" action="relatorio.php" method="GET">
+				<div class="form-group">
+					<label for="data-inicial">Data Inicial</label>
+					<input type="date" id="data-inicial" name="data-inicial" class="form-control mx-sm-3">
+					<label for="data-final">Data Final</label>
+					<input type="date" id="data-final" name="data-final" class="form-control mx-sm-3">
+					<button type="submit" class="btn btn-primary">Filtrar</button>
+				</div>
+
+			</form>
+			<br>
+			<!-- Pega intervalo de datas e mostra para o usuário o intervalo escolhido -->
+			<?php
+				if (isset($_GET['data-inicial']) && !empty($_GET['data-inicial'])) {
+					// pega data inicial informada pelo usuario
+					$data_inicial = $_GET['data-inicial'];
+
+					if (isset($_GET['data-final']) && !empty($_GET['data-final'])) {
+						// pega data final informada pelo usuario
+						$data_final = $_GET['data-final'];
 					}
+				}
+				else {
+					// recuperando a data atual
+					$data_inicial = date("Y-m-d");
+					$data_final = date("Y-m-d");
+				}
 
-					// busca pelo item
-					$sql = "SELECT id, item, quantidade, unidade FROM estoque WHERE id='$id';";
+				$dataInicialFormatada = date_format(date_create($data_inicial), 'd/m/Y');
+				$dataFinalFormatada = date_format(date_create($data_final), 'd/m/Y');
 
-					// verifica se encontrou resultado
-					if ($res = mysqli_query($conn, $sql)) {
-						$row = mysqli_fetch_assoc($res);
-						
-						$quantidade = $row['quantidade'];
-						$unidade = $row['unidade'];
-						
-						// armazenando o nome do item e a data atual para atualizar o histórico
-						$nome = $row['item'];
-						$data = date("Y-m-d");
-						
-						// verifica se o usuario informou uma saida
-						// calcula a quantidade final
-						if (isset($_POST['saida']) && !empty($_POST['saida'])) {
-							$saida = mysqli_real_escape_string($conn, $_POST['saida']);
-							$quantidade = $quantidade - $saida;
-						}
-						
-						// verifica se o usuario informou uma entrada
-						// calcula a quantidade final
-						if (isset($_POST['entrada']) && !empty($_POST['entrada'])) {
-							$entrada = mysqli_real_escape_string($conn, $_POST['entrada']);
-							$quantidade = $quantidade + $entrada;
-						}
+				echo "<h1 align='center'>$dataInicialFormatada até $dataFinalFormatada</h1><br>";
+			?>
 
-						// verifica se o usuario informou uma data de validade
-						if (isset($_POST['validade']) && !empty($_POST['validade'])) {
-							$validade = mysqli_real_escape_string($conn, $_POST['validade']);
-							$validade = date("Y/m/d", strtotime($validade));
-						}
+			<!--	Estoque		-->
+			<div class="card mb-3">
+				<div class="card-header"><i class="fa fa-table"></i> Relatório</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+							<thead>
+								<tr>
+									<th>Item</th>
+									<th>Quantidade Consumida</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>Item</th>
+									<th>Quantidade Consumida</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<?php
+									// busca por todos os itens
+									$sql = "SELECT item, SUM(t.quantidade) AS total, unidade
+												FROM (
+													SELECT diaMesAno, item, quantidade, unidade FROM historico WHERE quantidade > 0 AND (diaMesAno >= '$data_inicial' AND diaMesAno <= '$data_final')
+												) t
+											GROUP BY item, unidade;";
 
-						// imprime o form com a quantidade atualizada
-						printf("<form class='info-item' action='alterar.php?item=$id' method='post'>
-									<div class='form-group'>
-										<h1>%s</h1>
-										<p align='center'><em>Informe um ou mais dos campos abaixo</em></p>
-										<p>Quantidade atual: %d %s</p>
-										<div class='row'>
-											<label class='col-md-2' for='entrada'>Entrada</label>
-											<input class='form-control col-md-4' type='number' min='0' id='entrada' name='entrada'>
-											<label class='col-md-2' for='saida'>Saída</label>
-											<input class='form-control col-md-4' type='number' min='0' id='saida' name='saida'>
-										</div>
-										<br>
-										<div class='row'>
-											<label class='col-sm-2' for='validade'>Validade</label>
-											<input class='col-sm-10 form-control' type='date' id='validade' name='validade'>
-										</div>
-										<button class='btn btn-primary'>Salvar</button>
-									</div>
-								</form>", $row['item'], $quantidade, $unidade);
-					}
-					
-				
-					// se o usuario nao informar entrada nem saida, exibe um erro
-					// se informar, atualiza a quantidade do item no banco
-					if (!empty($_POST['entrada']) || !empty($_POST['saida']) || !empty($_POST['validade'])) {
-						$sql = "UPDATE estoque SET quantidade = '$quantidade' WHERE id='$id';";
+									// se a busca retornar resultados
+									if ($res = mysqli_query($conn, $sql)) {
+										// percorre pelos resultados
+										while ($row = mysqli_fetch_assoc($res)) {
+											$item = $row['item'];
+											$quantidade = $row['total'];
+											$unidade = $row['unidade'];
 
-						if ($res = mysqli_query($conn, $sql)) {
-							$msg = "sucesso";
-						}
+											// imprime as linhas da tabela
+											printf("<tr><td>%s</td><td>%s %s</td></tr>", $item, $quantidade, $unidade);
+										}
 
-						// atualizando a validade do item caso o usuário tenha informado nova data
-						if (isset($_POST['validade']) && !empty($_POST['validade'])) {
-							$sql_val = "UPDATE estoque SET validade = '$validade' WHERE id='$id'";
-
-							if (mysqli_query($conn, $sql_val)) {
-								$msg = "sucesso";
-							}
-						}
-
-						// atuliza historico
-						if (isset($_POST['saida']) && !empty($_POST['saida']) && $saida > 0) {
-							$sql = "INSERT INTO historico VALUES (default, '$data', '$nome', '$saida', '$unidade');";
-
-							mysqli_query($conn, $sql);
-						}
-					}
-					// se o usuário não preencheu nenhum dos campos e clicou em salvar
-					else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-						$msg = "erro";
-					}
-
-					// exibe mensagem de sucesso ou erro
-					if ($msg == "sucesso") {
-						echo "<div class='alert alert-success'>
-							     <strong>Sucesso!</strong> O item foi atualizado com sucesso.
-							  </div>";
-					}
-					else if ($msg == "erro") {
-						echo "<div class='alert alert-danger'>
-							     <strong>Erro!</strong> Quantidade inválida.
-							  </div>";
-					}
-
-
-				?>
+										mysqli_free_result($res);
+									}
+								?>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
+		</div>
 
 			<!-- Scroll to Top Button-->
 			<a class="scroll-to-top rounded" href="#page-top">
@@ -275,7 +245,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- Bootstrap core JavaScript-->
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/popper/popper.min.js"></script>
