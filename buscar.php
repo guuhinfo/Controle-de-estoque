@@ -93,7 +93,7 @@
 					}
 
 					// busca pelo item
-					$sql = "SELECT id, item, quantidade FROM estoque WHERE id='$id';";
+					$sql = "SELECT id, item, quantidade, unidade FROM estoque WHERE id='$id';";
 
 					// executa query
 					if ($res = mysqli_query($conn, $sql)) {
@@ -101,6 +101,7 @@
 						
 						// pega a quantidade do item buscado
 						$quantidade = $row['quantidade'];
+						$unidade = $row['unidade'];
 						
 						// armazenando o nome do item e a data atual para atualizar o histórico
 						$nome = $row['item'];
@@ -130,12 +131,12 @@
 									<div class='form-group'>
 										<h1>%s</h1>
 										<p align='center'><em>Informe a quantidade consumida do item</em></p>
-										<p>Quantidade atual: %d</p>
-										<label for='saida'>Quantidade usada:</label>
+										<p>Quantidade atual: %d %s</p>
+										<label for='saida'>Quantidade usada (em %s):</label>
 										<input class='form-control' type='number' min='1' name='saida' id='saida'>
 										<input type='submit' class='btn btn-primary'>
 									</div>
-								</form>", $row['item'], $quantidade);
+								</form>", $row['item'], $quantidade, $unidade, $unidade);
 					}
 				
 					
