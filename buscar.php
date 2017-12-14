@@ -153,7 +153,7 @@
 
 						// atuliza historico
 						if (isset($_POST['saida']) && !empty($_POST['saida']) && $saida > 0) {
-							$sql = "INSERT INTO historico VALUES (default, '$data', '$nome', '$saida');";
+							$sql = "INSERT INTO historico VALUES (default, '$data', '$nome', '$saida', '$unidade');";
 
 							mysqli_query($conn, $sql);
 						}

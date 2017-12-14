@@ -152,6 +152,7 @@
 				if (isset($_GET['data-inicial']) && !empty($_GET['data-inicial'])) {
 					// pega data inicial informada pelo usuario
 					$data_inicial = $_GET['data-inicial'];
+					$data_final = date("Y-m-d");
 
 					if (isset($_GET['data-final']) && !empty($_GET['data-final'])) {
 						// pega data final informada pelo usuario
